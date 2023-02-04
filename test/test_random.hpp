@@ -24,4 +24,15 @@ class Test_random { TEST_CASE_CLASS("Test_random") {
         REQUIRE(std::find(bools.begin(), bools.end(), true) == bools.end());
     }
 
+    SUBCASE("choice") {
+        std::vector<int> ints = {1,2,3,4,5,6,7,8,9,10};
+        for (unsigned i = 0; i<100; ++i) {
+            auto& choice = nada::random::choice(ints);
+            REQUIRE_GE(choice,  1);
+            REQUIRE_LE(choice, 10);
+        }
+        for (unsigned i = 0; i<10; ++i) nada::random::choice_erase(ints);
+        REQUIRE_EQ(ints.size(), 0);
+    }
+
 }};

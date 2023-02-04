@@ -84,12 +84,12 @@ namespace nada::random {
      * @note object is copied and returned via assignment.
      */
     template<typename T>
-    typename T::value_type choice_erase(T& liste) {
-        std::size_t n = nada::random::get<std::size_t>(0, liste.size() - 1);
-        auto iter = std::begin(liste);
+    typename T::value_type choice_erase(T& list) {
+        std::size_t n = nada::random::get<std::size_t>(0, list.size() - 1);
+        auto iter = std::begin(list);
         std::advance(iter, n);
         typename T::value_type objekt{std::move(*iter)}; // Kopie
-        liste.erase(iter);
+        list.erase(iter);
         return objekt;
     }
 
