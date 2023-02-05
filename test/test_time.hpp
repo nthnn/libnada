@@ -7,10 +7,11 @@ class Test_time { TEST_CASE_CLASS("Test_time") {
 
     SUBCASE("millis + sleep") {
         const auto m1 = nada::time::millis();
-        nada::time::sleep(100);
+        nada::time::sleep(1000);
         const auto m2 = nada::time::millis();
         REQUIRE(m1 < m2);
-        REQUIRE(m2 - m1 < 110); // 10% tolerance
+        const auto diff = m2 - m1;
+        REQUIRE(diff < 1100); // 10% tolerance
     }
 
 }};
