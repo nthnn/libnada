@@ -114,4 +114,27 @@ class Test_str { TEST_CASE_CLASS("Test_str") {
         REQUIRE(s1 == "nobodyexpectsthespanishinquisition");
     }
 
+    SUBCASE("text wrap") {
+        std::string s1("Lorem ipsum dolor sit amet, consectetur adipiscing"
+            " elit, sed do eiusmod tempor incididunt ut labore et dolore magna"
+            " aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+            " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure"
+            " dolor in reprehenderit in voluptate velit esse cillum dolore eu"
+            " fugiat nulla pariatur. Excepteur sint occaecat cupidatat non"
+            " proident, sunt in culpa qui officia deserunt mollit anim id est"
+            " laborum."); // single line text
+        nada::str::wrap(s1, 42);
+        REQUIRE_EQ(s1,
+            "Lorem ipsum dolor sit amet, consectetur adipiscing\n"
+            "elit, sed do eiusmod tempor incididunt ut\n"
+            "labore et dolore magna aliqua. Ut enim ad\n"
+            "minim veniam, quis nostrud exercitation ullamco\n"
+            "laboris nisi ut aliquip ex ea commodo consequat.\n"
+            "Duis aute irure dolor in reprehenderit in\n"
+            "voluptate velit esse cillum dolore eu fugiat\n"
+            "nulla pariatur. Excepteur sint occaecat cupidatat\n"
+            "non proident, sunt in culpa qui officia deserunt\n"
+            "mollit anim id est laborum.");
+    }
+
 }};

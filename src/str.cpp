@@ -13,7 +13,6 @@ std::vector<std::string> nada::str::tokenize(const std::string& text, const char
     return teile;
 }
 
-[[gnu::hot]]
 void nada::str::replace(std::string& s, char alt, char neu) {
     if (s.size() < 1000000) std::replace(s.begin(), s.end(), alt, neu);
     else {
@@ -26,7 +25,6 @@ void nada::str::replace(std::string& s, char alt, char neu) {
     }
 }
 
-[[gnu::hot]]
 void nada::str::replace(std::string& s, const std::string& alt, const std::string& neu) {
     std::string buffer;
     if (neu.size() > alt.size()) buffer.reserve((size_t)(s.size() * 1.1 + 1));
@@ -76,6 +74,16 @@ void nada::str::remove(std::string& str, const char c) {
 
 void nada::str::remove_whitespace(std::string& s) {
     s.erase(std::remove_if(s.begin(), s.end(), [](unsigned char c) { return std::isspace(c); }), s.end());
+}
+
+void nada::str::wrap(std::string& s, unsigned line_length) {
+    auto search_pos = line_length;
+    while (true) {
+        const auto pos = s.find(' ', search_pos);
+        if (pos == std::string::npos) return;
+        s[pos] = '\n';
+        search_pos = pos + line_length;
+    }
 }
 
 bool nada::str::begins_with(const std::string& s, const std::string& beginning) {

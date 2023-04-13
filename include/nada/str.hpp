@@ -37,8 +37,8 @@ namespace nada::str {
     void replace(std::string& s, const std::string& s_old, const std::string& s_new);
 
     /**
-     * @brief A 'replace_all' method with a cancel function.
-     * Replaces all occurrences of `old` in a string `s` with `new'.
+     * @brief A 'replace_all' method with a "cancel" function.
+     * Replaces all occurrences of `old` in a string `s` with `new' until it has been replaced `max` times.
      * @param s The string to manipulate.
      * @param old `char` to replace.
      * @param new `char` to replace with.
@@ -101,7 +101,7 @@ namespace nada::str {
     size_t find_after(const std::string& s, const std::string& f, const std::string& a);
 
     /**
-     * Check if a string starts with a given string.
+     * @brief Check if a string starts with a given string.
      * @param s String to check.
      * @param beginning Check if `s` begins with this.
      * @return Does `s` begin with `beginning`?
@@ -109,7 +109,7 @@ namespace nada::str {
     bool begins_with(const std::string& s, const std::string& beginning);
 
     /**
-     * Check if a string ends with a given string.
+     * @brief Check if a string ends with a given string.
      * @param s String to check.
      * @param ending Check if `s` ends with this.
      * @return Does `s` end with `ending`?
@@ -117,7 +117,7 @@ namespace nada::str {
     bool ends_with(const std::string& s, const std::string& ending);
 
     /**
-     *  @brief Removes all characters `c` from str.
+     * @brief Removes all characters `c` from str.
      * @param str String to manipulate.
      * @param c Charater to remove.
      */
@@ -125,5 +125,11 @@ namespace nada::str {
 
     /// Removes all whitespace from `s`.
     void remove_whitespace(std::string& s);
+
+    /**
+     * Wraps given string at the next whitespace after
+     * given `line_length` has been reached.
+     */
+    void wrap(std::string& s, unsigned line_length);
 
 }

@@ -50,7 +50,13 @@ namespace nada::misc {
      */
     uint32_t get_color_from_ratio(unsigned numerator, unsigned denominator);
 
-    /// Compares via < the objects that are hidden behind their pointers.
+    /** 
+     * Compares via < the objects that are hidden behind their pointers.
+     * For example:
+     * std::vector<std::string*> v;
+     * // ... fill v
+     * std::sort(v.begin(), v.end(), nada::misc::ptr_compare); // sorts strings in v lexically
+     */ 
     template <typename T>
     bool ptr_compare(const T* o1, const T* o2) { return *o1 < *o2; }
 

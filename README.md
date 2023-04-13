@@ -71,6 +71,28 @@ std::vector<std::string> v2 = nada::str::tokenize(s2, ' '); // ["hello", "world,
 
 std::string s3 = "0.1,0.2,0.3,0.4";
 std::vector<std::string> v3 = nada::str::tokenize(s3, ','); // ["0.1", "0.2", "0.3", "0.4"]
+
+// Wrapping single line strings
+std::string s1("Lorem ipsum dolor sit amet, consectetur adipiscing"
+    " elit, sed do eiusmod tempor incididunt ut labore et dolore magna"
+    " aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+    " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure"
+    " dolor in reprehenderit in voluptate velit esse cillum dolore eu"
+    " fugiat nulla pariatur. Excepteur sint occaecat cupidatat non"
+    " proident, sunt in culpa qui officia deserunt mollit anim id est"
+    " laborum."); // single line text
+nada::str::wrap(s1, 42); // breaks line next whitespace after 42 chars 
+// s1 ==
+    "Lorem ipsum dolor sit amet, consectetur adipiscing\n"
+    "elit, sed do eiusmod tempor incididunt ut\n"
+    "labore et dolore magna aliqua. Ut enim ad\n"
+    "minim veniam, quis nostrud exercitation ullamco\n"
+    "laboris nisi ut aliquip ex ea commodo consequat.\n"
+    "Duis aute irure dolor in reprehenderit in\n"
+    "voluptate velit esse cillum dolore eu fugiat\n"
+    "nulla pariatur. Excepteur sint occaecat cupidatat\n"
+    "non proident, sunt in culpa qui officia deserunt\n"
+    "mollit anim id est laborum."); // note: \n have been inserted
 ```
 
 ### For Reading and Writing INI 
@@ -94,18 +116,46 @@ if (ini.good()) {
 }
 ```
 
-### For miscellaneous things 
-### `#include <nada/misc.hpp>`
+### For timing stuff 
+### `#include <nada/time.hpp>`
 ```cpp
 // sleep + a simple millis() clock
 unsigned long long m1 = nada::time::millis(); // 1669025747307
 nada::time::sleep(100); // sleeps 100 ms
 unsigned long long m1 = nada::time::millis(); // 1669025747407
 
+/// Timing stuff
+nada::time::Clock c;
+// do stuff
+c.ms(); // tells you how long *stuff* took in milliseconds (uint).
+c.s(); // tells you how long *stuff* took in seconds (float).
+c.reset(); // restarts c
+
+/// constant FPS
+while (true) { // your rendering loop
+    // check events,,,
+    // do rendering,,,
+    // other things,,,
+    nada::time::fps(60); // keeps this loop @ 60 fps
+}
+```
+
+### For miscellaneous things 
+### `#include <nada/misc.hpp>`
+
+```cpp
 // Sum elements using multi-threading if available
 std::vector<unsigned> v = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 unsigned sum = NADA_SUM(v, std::plus()); // sum == 10
+
+// Comparator for objects behind raw pointers or smart-pointers:
+std::vector<std::string*> v; // note: std::string* not regular std::string
+//std::vector<std::shared_ptr<std::string>> v // also possible
+//std::vector<std::unique_ptr<std::string>> v // also possible
+// ... fill v
+std::sort(v.begin(), v.end(), nada::misc::ptr_compare); // sorts strings in v lexically
 ```
+
 
 ### For filesystem stuff
 ### `#include <nada/fs.hpp>`
