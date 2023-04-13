@@ -1,7 +1,8 @@
 # nadalib
 
 ## User friendly C++ library for everyday basic needs
-**C++17 or later required**
++ **C++17 or later required**
++ **no external dependencies**
 + string manipulation
 + random number generation
 + ini (config) file reading/writing
