@@ -39,11 +39,11 @@ namespace nada::random {
     bool b(unsigned int chance);
 
     /**
-    * Returns a random number in the largest possible number range. For example, for random hashing.
-    * @tparam T Data type of the random hash, e.g. uint_32t.
+    * Returns a unique ID (random number) in the largest possible number range. 
+    * @tparam T Data type of number, e.g. uint32_t.
      */
-    template<typename T>
-    T random_hash() {
+    template<typename T = uint64_t, std::enable_if_t<std::is_integral<T>::value, int> = 0>
+    T uid() {
         thread_local std::random_device rd;
         thread_local std::mt19937 mt(rd());
         std::uniform_int_distribution<T> uid(0);
@@ -88,7 +88,7 @@ namespace nada::random {
         std::size_t n = nada::random::get<std::size_t>(0, list.size() - 1);
         auto iter = std::begin(list);
         std::advance(iter, n);
-        typename T::value_type objekt{std::move(*iter)}; // Kopie
+        typename T::value_type objekt{std::move(*iter)}; // copy
         list.erase(iter);
         return objekt;
     }

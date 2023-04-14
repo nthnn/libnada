@@ -3,10 +3,14 @@
 #include <string>
 #include <vector>
 
+/** 
+ * @brief Filesystem helpers. 
+ * All given paths can be relative or absolute.
+ */ 
 namespace nada::fs {
 
     /// Reads a file with a given path and adds each line to a container via 'push_back'.
-    void read_lines(const std::string& pfad, std::vector<std::string>& liste, unsigned min_laenge = 2);
+    void read_lines(const std::string& pfad, std::vector<std::string>& list, unsigned min_laenge = 2);
     
     /**
     * Returns all file paths (relative) from this executable's working directory (relative)
@@ -25,5 +29,8 @@ namespace nada::fs {
      * Same as `nada::fs::all_files`, but also searches subfolders and their subfolders of given folder.
      */
     std::vector<std::string> all_files_recursive(const std::string& folder, std::string extension = "");
+
+    /// @brief Gives true, if file at given path exists and is readable.
+    bool exists_file(const std::string& path);
 
 }

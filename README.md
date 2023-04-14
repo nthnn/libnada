@@ -6,8 +6,10 @@
 + string manipulation
 + random number generation
 + ini (config) file reading/writing
-+ simplistic logging
-+ file system
++ easy logging
++ file system helpers
++ basic benchmarking function calls
++ timing / constant FPS
 
 **Documented**
 + Usage examples see below
@@ -145,7 +147,8 @@ while (true) { // your rendering loop
 ### `#include <nada/misc.hpp>`
 
 ```cpp
-// Sum elements using multi-threading if available
+// Sum elements using multi-threading if available*
+// *might need linking with 'pthread' and possibly 'tbb'
 std::vector<unsigned> v = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 unsigned sum = NADA_SUM(v, std::plus()); // sum == 10
 
@@ -182,4 +185,43 @@ std::vector<std::string> files = nada::fs::all_files("subfolder", "jpg");
 std::vector<std::string> files = nada::fs::all_files_recursive("subfolder", "xml"); 
 // => subfolder/file1.xml, subfolder/subsubfolder/file6.xml
 
+bool file_exists = nada::fs::exists_file("subfolder/file1.xml"); // true
 ```
+
+### For logging stuff
+### `#include <nada/log.hpp>`
+```cpp
+nada::Log::out() << "Hello world!" << nada::Log::endl; // prints "Hello world!" to std::cout
+
+std::ostringstream oss;
+nada::Log::set_output(&oss);
+nada::Log::out() << "Hello world!" << nada::Log::endl; // writes "Hello world!" to stringstream 'oss'
+
+std::ofstream out("log.txt");
+nada::Log::set_output(&out);
+nada::Log::out() << "Hello world!" << nada::Log::endl; // writes "Hello world!" to file "log.txt"
+
+nada::Log::to_cout();
+nada::Log::out() << "Hello world!" << nada::Log::endl; // prints "Hello world!" to std::cout again
+
+nada::Log::out() << nada::Log::endl; // newline + flush
+
+nada::Log::out() << nada::Log::flush; // flush 
+
+nada::Log::debug() << "Hello world!"; // prints "Hello world!" only if building in debug mode; does nothing in release build
+```
+
+### Benchmarking function calls
+### `#include <nada/log.hpp>`
+```cpp
+auto function_to_benchmark = []() {
+    // do
+    // expensive
+    // calculation
+};
+
+nada::Log::benchmark(function_to_benchmark, "Expensive calculation");
+// prints something like:
+// "Expensive calculation Duration: 0.41s"
+```
+

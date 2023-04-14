@@ -21,23 +21,35 @@ void nada::fs::read_lines(const std::string& pfad, std::vector<std::string>& lis
 std::vector<std::string> nada::fs::all_files(const std::string& ordner, std::string endung) {
     std::vector<std::string> dateien;
     endung = "." + endung;
-    for (const auto& entry : std::filesystem::directory_iterator(ordner)) {
-        if (entry.is_regular_file()) {
-            const auto& dateiname = entry.path().generic_string();
-            if (endung == "." || nada::str::ends_with(dateiname, endung)) dateien.push_back(dateiname);
+    try {
+        for (const auto& entry : std::filesystem::directory_iterator(ordner)) {
+            if (entry.is_regular_file()) {
+                const auto& dateiname = entry.path().generic_string();
+                if (endung == "." || nada::str::ends_with(dateiname, endung)) dateien.push_back(dateiname);
+            }
         }
-    }
+    } catch(const std::exception& e) {}
     return dateien;
 }
 
 std::vector<std::string> nada::fs::all_files_recursive(const std::string& folder, std::string extension) {
     std::vector<std::string> dateien;
     extension = "." + extension;
-    for (const auto& entry : std::filesystem::recursive_directory_iterator(folder)) {
-        if (entry.is_regular_file()) {
-            const auto& dateiname = entry.path().generic_string();
-            if (extension == "." || nada::str::ends_with(dateiname, extension)) dateien.push_back(dateiname);
+    try {
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(folder)) {
+            if (entry.is_regular_file()) {
+                const auto& dateiname = entry.path().generic_string();
+                if (extension == "." || nada::str::ends_with(dateiname, extension)) dateien.push_back(dateiname);
+            }
         }
-    }
+    } catch(const std::exception& e) {}
     return dateien;
 }
+
+bool nada::fs::exists_file(const std::string& path) {
+    try { 
+        std::ifstream in(path);
+        return in.good() && std::filesystem::is_regular_file(path);
+    } catch (const std::exception& e) { return false; }
+}
+

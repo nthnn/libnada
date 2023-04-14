@@ -8,6 +8,7 @@
 #include "test_time.hpp"
 #include "test_random.hpp"
 #include "test_str.hpp"
+#include "test_fs.hpp"
 
 int main(int argc, char** argv) {
     doctest::Context context;
