@@ -47,7 +47,7 @@ float f1 = nada::random::f(0,1); // gives a random float between 0 and 1,
                                  // i.e. 0.6621, 0.1551 or 0.99101 or something
 
 double d1 = nada::random::d(1, 1000); // gives a random double between 1 and 1000
-                                      // i.e. 551.07, 0.1987 or 851.29 or so
+                                      // i.e. 551.07, 1.1987 or 851.29 or so
 ```
 
 
