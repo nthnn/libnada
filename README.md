@@ -1,6 +1,7 @@
 # nadalib
 
 [![Build and Test](https://github.com/chris-nada/libnada/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/chris-nada/libnada/actions/workflows/build-and-test.yml)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 ## User friendly C++ library for everyday basic needs
 + **C++17 or later required**
