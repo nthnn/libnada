@@ -108,15 +108,29 @@ first=1
 second=2.5
 third=4
 fourth=some value
+fifth=ich,bin,many,values
+sixth=True
 ```
 ```cpp
-// Read values like this
+// Path to your ini
 nada::Ini ini("subfolder/some_ini_file.ini");
 if (ini.good()) {
-    int i = ini.get_int<int>("first"); // 1
-    double d = ini.get_float<double>("second"); // 2.5
+    // Read different types like this
+
+    int i = ini.get_int<int>("first"); // 1 <- use this for int, long, short and so on
+    
+    double d = ini.get_float<double>("second"); // 2.5 <- use this for float and double
+    
     std::string s = ini.get("fourth"); // "some value"
+    
+    std::vector<std::string> = ini.get_vector("fifth"); // "ich", "bin", "many", "values"
+    
+    bool b = ini.get_bool("sixth"); // true (accepts "1", "True" and "true" as true)
 }
+
+// Or: static methods for simple access
+std::string s = nada::Ini::get_value_from_file("subfolder/some_ini_file.ini", "fourth"); // "some value"
+std::vector<std::string> = nada::Ini::get_vector_from_file("subfolder/some_ini_file.ini", "fifth"); // "ich", "bin", "many", "values"
 ```
 
 ### For timing stuff 

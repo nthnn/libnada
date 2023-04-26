@@ -30,4 +30,21 @@ class Test_ini { TEST_CASE_CLASS("Test_ini") {
         REQUIRE(ini.get_int<int>("value_int") == -1);
     }
 
+    SUBCASE("value_vector") {
+        nada::Ini ini("test.ini");
+        const std::vector<std::string> v = ini.get_vector("value_vector");
+        REQUIRE(v.size() == 4);
+        REQUIRE(v.at(0) == "ich");
+        REQUIRE(v.at(1) == "bin");
+        REQUIRE(v.at(2) == "ein");
+        REQUIRE(v.at(3) == "berliner");
+    }
+
+    SUBCASE("value_bool") {
+        nada::Ini ini("test.ini");
+        REQUIRE(ini.get_bool("value_bool_true") == true);
+        REQUIRE(ini.get_bool("value_bool_false") == false);
+        REQUIRE(ini.get_bool("value_bool_not_found") == false);
+    }
+
 }};

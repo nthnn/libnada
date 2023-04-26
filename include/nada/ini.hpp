@@ -30,7 +30,7 @@ public:
     /**
      * Is the file readable?
      */
-    bool good() const { if (std::ifstream in(ini_file); in.good()) return true; return false; }
+    bool good() const;
 
     /**
      * Gives you the raw value that's written in the ini behind given `key`.
@@ -46,9 +46,9 @@ public:
      * Gives you a bool behind given key.
      * Bools may be presented as `0` or `1`, `false` or `true`, `False` or `True` and `FALSE` or `TRUE`.
      * @param key The key in the INI from which the values are read.
-     * @param fallback If `key` wasn't found, this value is returned.
+     * @param fallback If `key` wasn't found, this value is returned. `false` by default.
      */
-    bool get_bool(const std::string& key, bool fallback);
+    bool get_bool(const std::string& key, bool fallback = false);
 
     /**
      * Use this to retrieve integers, longs, long longs or anything unsigned.
@@ -83,9 +83,7 @@ public:
      * @param append If `append` is given, this value is appended to all strings.
      * @return List of the read values as a string.
      */
-    std::vector<std::string> get_value_as_vector_from_file(const std::string& key, char token, const std::string& append = "") {
-        return get_value_as_vector_from_file(this->ini_file, key, token, append);
-    }
+    std::vector<std::string> get_vector(const std::string& key, char token = ',', const std::string& append = "");
 
     /**
     * Returns the value of the given key from an INI file (with = as separator).
@@ -108,7 +106,7 @@ public:
     * @param append If `append` is given, this value is appended to all strings.
     * @return List of the read values as a string.
     */
-    static std::vector<std::string> get_value_as_vector_from_file(const std::string& datei, const std::string& key, const char token, const std::string& append = "");
+    static std::vector<std::string> get_vector_from_file(const std::string& datei, const std::string& key, const char token =',', const std::string& append = "");
 
 private:
 
