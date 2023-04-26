@@ -36,7 +36,7 @@
 ```
 ## Usage examples
 
-### For generating random numbers 
+### For generating randomness
 ### `#include <nada/random.hpp>`
 ```cpp
 bool b1 = nada::random::b(100); // always true
@@ -51,6 +51,10 @@ float f1 = nada::random::f(0,1); // gives a random float between 0 and 1,
 
 double d1 = nada::random::d(1, 1000); // gives a random double between 1 and 1000
                                       // i.e. 551.07, 1.1987 or 851.29 or so
+
+// random picker
+std::vector<std::string> v = {"first", "second", "third", "forth", "..."};
+std::string s = nada::random::choice(v); // s == "second" for example
 ```
 
 
@@ -98,7 +102,7 @@ nada::str::wrap(s1, 42); // breaks line next whitespace after 42 chars
     "voluptate velit esse cillum dolore eu fugiat\n"
     "nulla pariatur. Excepteur sint occaecat cupidatat\n"
     "non proident, sunt in culpa qui officia deserunt\n"
-    "mollit anim id est laborum."); // note: \n have been inserted
+    "mollit anim id est laborum." // note: \n have been inserted
 ```
 
 ### For Reading and Writing INI 

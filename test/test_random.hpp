@@ -35,4 +35,10 @@ class Test_random { TEST_CASE_CLASS("Test_random") {
         REQUIRE_EQ(ints.size(), 0);
     }
 
+    SUBCASE("choice w/ string") {
+        std::vector<std::string> v = {"first", "second", "third", "forth", "..."};
+        std::string s = nada::random::choice(v);
+        REQUIRE_GE(s.length(), 3);
+    }
+
 }};
