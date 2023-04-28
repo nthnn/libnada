@@ -137,4 +137,58 @@ class Test_str { TEST_CASE_CLASS("Test_str") {
             "mollit anim id est laborum.");
     }
 
+    SUBCASE("to_upper") {
+        std::string s1(" 1,2\tF\nLower Case Rules!");
+        const std::string s2(" 1,2\tF\nLOWER CASE RULES!");
+        nada::str::to_upper(s1);
+        REQUIRE_EQ(s1, s2);
+    }
+
+    SUBCASE("trim") {
+        std::string s1("  \t  space. the final frontier ...\n  \t  ");
+        SUBCASE("left") {
+            const std::string expected("space. the final frontier ...\n  \t  ");
+            nada::str::trim_left(s1);
+            REQUIRE_EQ(s1, expected);
+        }
+        SUBCASE("right") {
+            const std::string expected("  \t  space. the final frontier ...\n");
+            nada::str::trim_right(s1);
+            REQUIRE_EQ(s1, expected);
+        }
+        SUBCASE("left+right") {
+            const std::string expected("space. the final frontier ...\n");
+            nada::str::trim(s1);
+            REQUIRE_EQ(s1, expected);
+        }
+    }
+
+    SUBCASE("is_number") {
+        SUBCASE("is_insteger") {
+            REQUIRE(nada::str::is_integer("1"));
+            REQUIRE(nada::str::is_integer("-1"));
+            REQUIRE(nada::str::is_integer("123456789"));
+            REQUIRE(nada::str::is_integer("-420"));
+            REQUIRE_FALSE(nada::str::is_integer(""));
+            REQUIRE_FALSE(nada::str::is_integer(" "));
+            REQUIRE_FALSE(nada::str::is_integer("0x80"));
+            REQUIRE_FALSE(nada::str::is_integer("1.0"));
+            REQUIRE_FALSE(nada::str::is_integer("-1.1"));
+            REQUIRE_FALSE(nada::str::is_integer("1."));
+        
+        }
+        SUBCASE("is_float") {
+            REQUIRE(nada::str::is_float("1"));
+            REQUIRE(nada::str::is_float("-1"));
+            REQUIRE(nada::str::is_float("123456789"));
+            REQUIRE(nada::str::is_float("-420"));
+            REQUIRE_FALSE(nada::str::is_float(""));
+            REQUIRE_FALSE(nada::str::is_float(" "));
+            REQUIRE_FALSE(nada::str::is_float("0x80"));
+            REQUIRE(nada::str::is_float("1.0"));
+            REQUIRE(nada::str::is_float("-1.1"));
+            REQUIRE_FALSE(nada::str::is_float("1."));
+        }
+    }
+
 }};

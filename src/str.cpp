@@ -54,7 +54,11 @@ void nada::str::replace(std::string& s, const std::string& alt, const std::strin
 }
 
 void nada::str::to_lower(std::string& s) {
-    std::transform(s.begin(), s.end(), s.begin(), ::tolower );
+    std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+}
+
+void nada::str::to_upper(std::string&s) {
+    std::transform(s.begin(), s.end(), s.begin(), ::toupper);
 }
 
 size_t nada::str::find(const std::string& s, const std::string& f, unsigned n, size_t start_pos) {
@@ -63,17 +67,34 @@ size_t nada::str::find(const std::string& s, const std::string& f, unsigned n, s
 }
 
 size_t nada::str::find_after(const std::string& s, const std::string& f, const std::string& a) {
-        const size_t start_pos = s.find(a);
-        if (start_pos != std::string::npos) return s.find(f, start_pos);
-        return start_pos;
-    }
+    const size_t start_pos = s.find(a);
+    if (start_pos != std::string::npos) return s.find(f, start_pos);
+    return std::string::npos;
+}
 
 void nada::str::remove(std::string& str, const char c) {
     str.erase(std::remove(std::begin(str), std::end(str), c), std::end(str));
 }
 
 void nada::str::remove_whitespace(std::string& s) {
-    s.erase(std::remove_if(s.begin(), s.end(), [](unsigned char c) { return std::isspace(c); }), s.end());
+    s.erase(std::remove_if(s.begin(), s.end(), [](auto c) { return std::isspace(c); }), s.end());
+}
+
+void nada::str::trim(std::string& s) {
+    trim_left(s);
+    trim_right(s);
+}
+
+void nada::str::trim_left(std::string& s) {
+    auto it = s.begin();
+    for (; it != s.end(); ++it) if (*it != ' ' && *it != '\t') break;
+    s.erase(s.begin(), it);
+}
+
+void nada::str::trim_right(std::string& s) {
+    auto it = s.rbegin();
+    for (; it != s.rend(); ++it) if (*it != ' ' && *it != '\t') break;
+    s.erase(it.base(), s.end());
 }
 
 void nada::str::wrap(std::string& s, unsigned line_length) {
@@ -94,4 +115,27 @@ bool nada::str::begins_with(const std::string& s, const std::string& beginning) 
 bool nada::str::ends_with(const std::string& s, const std::string& ending) {
     if (ending.size() > s.size()) return false;
     return std::equal(ending.rbegin(), ending.rend(), s.rbegin());
+}
+
+bool nada::str::is_integer(const std::string& s) {
+    if (s.empty()) return false;
+    for (unsigned i = s[0] == '-' ? 1 : 0; i < s.size(); ++i) {
+        if (!std::isdigit(s[i])) return false;
+    }
+    return true;
+}
+
+bool nada::str::is_float(const std::string& s, const char decimal_point) {
+    if (s.empty()) return false;
+    if (s[s.size()-1] == decimal_point) return false; // no '.' at end allowed
+    bool contains_decimal = false;
+    for (unsigned i = s[0] == '-' ? 1 : 0; i < s.size(); ++i) {
+        if (s[i] == decimal_point) { // only 1 allowed
+            if (contains_decimal) return false;
+            contains_decimal = true;
+            continue;
+        }
+        if (!std::isdigit(s[i])) return false;
+    }
+    return true;
 }

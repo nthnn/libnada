@@ -36,6 +36,8 @@
 ```
 ## Usage examples
 
+Given examples below could of course be shortened by `using namespace nada;`
+
 ### For generating randomness
 ### `#include <nada/random.hpp>`
 ```cpp
@@ -61,11 +63,23 @@ std::string s = nada::random::choice(v); // s == "second" for example
 ### For String manipulation
 ### `#include <nada/str.hpp>`
 ```cpp
-std::string s1 = "hello world";
+std::string s = "hello world";
 // Remove whitespace
-nada::str::remove_whitespace(s1); // "helloworld"
+nada::str::remove_whitespace(s); // "helloworld"
 
-// Remove all chars
+// Trim left
+std::string s = "\t    space. the final frontier.\t    ";
+nada::str::trim_left(s); // "space. the final frontier.\t    ";
+
+// Trim right
+std::string s = "\t    space. the final frontier.\t    ";
+nada::str::trim_right(s); // "\t    space. the final frontier.";
+
+// Trim (left + right)
+std::string s = "\t    space. the final frontier.\t    ";
+nada::str::trim(s); // "space. the final frontier.";
+
+// Remove all chars 'o'
 nada::str::remove(s1, 'o'); // "hellwrld"
 
 // Get text between tags or other delimiters
@@ -76,11 +90,11 @@ std::string tagged2 = "oh that is so 'tacky' isn't it?";
 std::string tag2 = nada::str::get_between(tagged2, '\'', '\''); // "tacky"
 
 // Tokenize Strings
-std::string s2 = "hello world, how are you?";
-std::vector<std::string> v2 = nada::str::tokenize(s2, ' '); // ["hello", "world,", "how", "are", "you?"]
+std::string s = "hello world, how are you?";
+std::vector<std::string> v = nada::str::tokenize(s, ' '); // ["hello", "world,", "how", "are", "you?"]
 
-std::string s3 = "0.1,0.2,0.3,0.4";
-std::vector<std::string> v3 = nada::str::tokenize(s3, ','); // ["0.1", "0.2", "0.3", "0.4"]
+std::string s = "0.1,0.2,0.3,0.4";
+std::vector<std::string> v = nada::str::tokenize(s, ','); // ["0.1", "0.2", "0.3", "0.4"]
 
 // Wrapping single line strings
 std::string s1("Lorem ipsum dolor sit amet, consectetur adipiscing"
@@ -103,6 +117,14 @@ nada::str::wrap(s1, 42); // breaks line next whitespace after 42 chars
     "nulla pariatur. Excepteur sint occaecat cupidatat\n"
     "non proident, sunt in culpa qui officia deserunt\n"
     "mollit anim id est laborum." // note: \n have been inserted
+
+// Testing string for intness or floatness
+std::string an_int = "42";
+std::string a_float = "42.0";
+nada::str::is_integer(an_int); // true
+nada::str::is_integer(a_float); // false
+nada::str::is_float(a_float); // true
+nada::str::is_float(an_int); // true
 ```
 
 ### For Reading and Writing INI 

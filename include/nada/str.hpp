@@ -6,6 +6,12 @@
 namespace nada::str {
 
     /**
+     * ===================
+     * String manipulation
+     * ===================
+     */
+
+    /**
      * @brief Splits a string 'text' into parts. Chopping is done where 'char token_sep' occurs.
      *
      * @param text Text to split.
@@ -69,10 +75,54 @@ namespace nada::str {
 
     /**
      * @brief Converts an ANSI string to lowercase only.
-     * @params The string to manipulate.
+     * @param s The string to manipulate.
      * @note umlauts and special characters could cause problems. (Only ANSI/ASCII is converted correctly.)
      */
     void to_lower(std::string& s);
+
+    /**
+     * @brief Converts an ANSI string to uppercase only.
+     * @param s The string to manipulate.
+     * @note umlauts and special characters could cause problems. (Only ANSI/ASCII is converted correctly.)
+     */
+    void to_upper(std::string& s);
+
+    /**
+     * @brief Removes all characters `c` from str.
+     * @param str String to manipulate.
+     * @param c Charater to remove.
+     */
+    void remove(std::string& str, char c);
+
+    /// Removes all whitespace from `s`.
+    void remove_whitespace(std::string& s);
+
+    /**
+     * Removes leading & trailing whitespace (tabs and spaces).
+     */
+    void trim(std::string& s);
+
+    /**
+     * Removes leading whitespace (tabs and spaces).
+     */
+    void trim_left(std::string& s);
+
+    /**
+     * Removes trailing whitespace (tabs and spaces).
+     */
+    void trim_right(std::string& s);
+
+    /**
+     * Wraps given string at the next whitespace after
+     * given `line_length` has been reached.
+     */
+    void wrap(std::string& s, unsigned line_length);
+
+    /**
+     * ===========================
+     * String search + examination
+     * ===========================
+     */
 
     /**
      * Finds index of the nth occurence of `f` in `s` (indexing starts with 0). 
@@ -117,19 +167,23 @@ namespace nada::str {
     bool ends_with(const std::string& s, const std::string& ending);
 
     /**
-     * @brief Removes all characters `c` from str.
-     * @param str String to manipulate.
-     * @param c Charater to remove.
+     * Checks if given string is a integer.
+     * If it contains any other character than numbers 
+     * (letters, whitespace, ',' or '.') false is returned.
+     * '-' At the beginning is allowed.
      */
-    void remove(std::string& str, char c);
-
-    /// Removes all whitespace from `s`.
-    void remove_whitespace(std::string& s);
+    bool is_integer(const std::string& s);
 
     /**
-     * Wraps given string at the next whitespace after
-     * given `line_length` has been reached.
+     * Checks if given string is a floating point number.
+     * If it contains any other character than numbers 
+     * and one or zero decimal_points (. by default). 
+     * '.' is not allowed to be the last character.
+     * If it contains letters or whitespace false is returned.
+     * '-' At the beginning is allowed.
+     * For example: "-1" == true, "1.0" == true, "1.0f" == false (!), 
+     *          "0xFF" == false, "bla" == false, " 100" == false.
      */
-    void wrap(std::string& s, unsigned line_length);
+    bool is_float(const std::string& s, const char decimal_point = '.');
 
 }
