@@ -2,3 +2,4 @@
 build/*
 !build/test.ini
 !build/test
+!build/lcov_report.sh

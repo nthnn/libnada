@@ -1,0 +1,31 @@
+name: Coverage
+
+on:
+  pull_request:
+    branches: ["main"]
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: CMake Configure
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: CMake Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      run: ./nada_test
+    - name: Setup lcov
+      uses: hrishikesh-kadam/setup-lcov@v1
+    - name: Generate lcov.info
+      working-directory: ${{github.workspace}}/build
+      run: sh lcov_report.sh
+    - name: Lcov Reporter
+      uses: vebr/jest-lcov-reporter@v0.2.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        lcov-file: ./build/lcov.info
