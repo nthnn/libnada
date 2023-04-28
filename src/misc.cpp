@@ -3,8 +3,7 @@
 #include <chrono>
 #include <unordered_map>
 
-uint32_t nada::misc::get_color_from_ratio(unsigned int zaehler, unsigned int nenner) {
-    const float verhaeltnis = static_cast<float>(zaehler) / static_cast<float>(nenner);
+uint32_t nada::misc::get_color_from_ratio(float verhaeltnis) {
     const uint8_t g = std::min(0xFF, static_cast<int>(0xFF * verhaeltnis));
     const uint8_t r = 0xFF - g;
     const uint8_t arr[4] = {r, g, 0x40, 0xFF};

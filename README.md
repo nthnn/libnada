@@ -197,10 +197,12 @@ unsigned sum = NADA_SUM(v, std::plus()); // sum == 10
 
 // Comparator for objects behind raw pointers or smart-pointers:
 std::vector<std::string*> v; // note: std::string* not regular std::string
-//std::vector<std::shared_ptr<std::string>> v // also possible
-//std::vector<std::unique_ptr<std::string>> v // also possible
+//or: std::vector<int*> v
+//or: std::vector<std::shared_ptr<std::string>> v;
+//or: std::vector<std::unique_ptr<std::string>> v;
+//or: std::list, std::array, std::deque... also supported
 // ... fill v
-std::sort(v.begin(), v.end(), nada::misc::ptr_compare); // sorts strings in v lexically
+nada::misc::sort_ptrs(v); // sorts ints in v or strings in v lexically
 ```
 
 

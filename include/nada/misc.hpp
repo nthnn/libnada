@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <list>
 #include <algorithm>
 #include <utility>
 
@@ -42,22 +43,26 @@ struct Do_Once {
 namespace nada::misc {
 
     /**
-     * Provides a color (rgb 32 bit) with a green tint at a positive ratio > 1, red tint at < 1.
+     * Provides a color (RGBA 32 bit) with a green tint at a positive ratio > 1, red tint at < 1.
      * 0 = maximum red; 1 = maximum green.
-     * For example get_color_from_ratio(5, 5); gives maximum green (0x00FF00).
-     * For example get_color_from_ratio(0, 5); gives maximum red   (0xFF0000).
-     * For example get_color_from_ratio(2, 4); gives something roughly in the middle - 0x888800 or so.
+     * @note This is currently not endian-portable.
      */
-    uint32_t get_color_from_ratio(unsigned numerator, unsigned denominator);
+    uint32_t get_color_from_ratio(float ratio);
+
+    /// @brief Sorts given list of pointers.
+    template<typename T>
+    void sort_ptrs(std::list<T*>& v) {
+        v.sort([](const auto* lhs, const auto* rhs) { return *lhs < *rhs; }); 
+    }
 
     /** 
-     * Compares via < the objects that are hidden behind their pointers.
-     * For example:
-     * std::vector<std::string*> v;
-     * // ... fill v
-     * std::sort(v.begin(), v.end(), nada::misc::ptr_compare); // sorts strings in v lexically
+     * Sorts given vector/deque/array... of pointers.
+     * For example std::vector<int*> or std::deque<std::string*> and so on.
+     * Does not support nullptrs.
      */ 
-    template <typename T>
-    bool ptr_compare(const T* o1, const T* o2) { return *o1 < *o2; }
+    template<typename T>
+    void sort_ptrs(T& v) { 
+        std::sort(v.begin(), v.end(), [](const auto* lhs, const auto* rhs) { return *lhs < *rhs; }); 
+    }
 
 }
