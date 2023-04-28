@@ -25,7 +25,7 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: sh lcov_report.sh
     - name: Lcov Reporter
-      uses: lifeart/jest-lcov-reporter@v0.3.2
+      uses: vebr/jest-lcov-reporter@v0.2.0
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        lcov-file: ${{github.workspace}}/build/lcov.info
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        lcov-file: ./build/lcov.info
