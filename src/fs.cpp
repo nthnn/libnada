@@ -1,6 +1,13 @@
 #include <nada/fs.hpp>
 #include <nada/str.hpp>
 
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+#include <cstdio>
 #include <fstream>
 #include <filesystem>
 
@@ -13,12 +20,13 @@ void nada::fs::read_lines(const std::string& pfad, std::vector<std::string>& lis
                 liste.push_back(zeile);
             }
         }
-        //if (liste.empty()) nada::Log::err() << "Keine Elemente in " << pfad << '\n'; //TODO
+
+    //if (liste.empty()) nada::Log::err() << "Keine Elemente in " << pfad << '\n'; //TODO
     }
     //else nada::Log::err() << pfad << " konnte nicht gelesen werden.\n"; //TODO
 }
 
-void nada::fs::write_lines(std::string pfad, std::string lines) {
+bool nada::fs::write_lines(std::string pfad, std::string lines) {
     try {
         std::ofstream file(pfad);
 
@@ -26,7 +34,11 @@ void nada::fs::write_lines(std::string pfad, std::string lines) {
             file << lines;
             file.close();
         }
-    } catch(const std::exception& e) {}
+    } catch(const std::exception& e) {
+        return false;
+    }
+
+    return true;
 }
 
 std::vector<std::string> nada::fs::all_files(const std::string& ordner, std::string endung) {
@@ -64,3 +76,20 @@ bool nada::fs::exists_file(const std::string& path) {
     } catch (const std::exception& e) { return false; }
 }
 
+bool nada::fs::delete_file(std::string filename) {
+    return std::remove(filename.c_str()) == 0;
+}
+
+bool nada::fs::delete_folder(std::string path) {
+    try {
+        #ifdef _WIN32
+            return (RemoveDirectory(path.c_str()) != 0);
+        #else
+            return (rmdir(path.c_str()) == 0);
+        #endif
+    } catch(const std::exception& error) {
+        return false;
+    }
+
+    return true;
+}

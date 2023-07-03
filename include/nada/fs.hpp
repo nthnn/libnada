@@ -13,8 +13,8 @@ namespace nada::fs {
     void read_lines(const std::string& pfad, std::vector<std::string>& list, unsigned min_laenge = 2);
 
     // Writes a string to a specified file named.
-    void write_lines(std::string pfad, std::string lines);
-    
+    bool write_lines(std::string pfad, std::string lines);
+
     /**
     * Returns all file paths (relative) from this executable's working directory (relative)
     * with a given file extension (case sensitive).
@@ -36,4 +36,9 @@ namespace nada::fs {
     /// @brief Gives true, if file at given path exists and is readable.
     bool exists_file(const std::string& path);
 
+    /// @brief Returns true if the file was successfully deleted.
+    bool delete_file(std::string filename);
+
+    /// @brief Returns true if the folder was successfully deleted.
+    bool delete_folder(std::string path);
 }
