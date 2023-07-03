@@ -11,6 +11,9 @@ namespace nada::fs {
 
     /// Reads a file with a given path and adds each line to a container via 'push_back'.
     void read_lines(const std::string& pfad, std::vector<std::string>& list, unsigned min_laenge = 2);
+
+    // Writes a string to a specified file named.
+    void write_lines(std::string pfad, std::string lines);
     
     /**
     * Returns all file paths (relative) from this executable's working directory (relative)

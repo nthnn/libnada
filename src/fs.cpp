@@ -18,6 +18,17 @@ void nada::fs::read_lines(const std::string& pfad, std::vector<std::string>& lis
     //else nada::Log::err() << pfad << " konnte nicht gelesen werden.\n"; //TODO
 }
 
+void nada::fs::write_lines(std::string pfad, std::string lines) {
+    try {
+        std::ofstream file(pfad);
+
+        if (file.is_open()) {
+            file << lines;
+            file.close();
+        }
+    } catch(const std::exception& e) {}
+}
+
 std::vector<std::string> nada::fs::all_files(const std::string& ordner, std::string endung) {
     std::vector<std::string> dateien;
     endung = "." + endung;
